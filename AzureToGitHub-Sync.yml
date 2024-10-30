@@ -22,7 +22,7 @@ jobs:
           git config --global user.email "milind.patl02@gmail.com"
 
           echo "Adding GitHub remote..."
-          git remote add github "https://$(GITHUB_TOKEN)@github.com/patil-milind/AzureDevopsRepoPOC.git"
+          git remote add github "https://$GITHUB_TOKEN@github.com/patil-milind/AzureDevopsRepoPOC.git"
           git fetch github
 
           echo "Pushing changes to GitHub..."
