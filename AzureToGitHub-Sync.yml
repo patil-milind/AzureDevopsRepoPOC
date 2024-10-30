@@ -21,14 +21,26 @@ jobs:
           git config --global user.name "patil-milind"
           git config --global user.email "milind.patl02@gmail.com"
 
+          echo "Checking for existing GitHub remote..."
+          if git remote | grep -q github; then
+            echo "Removing existing GitHub remote..."
+            git remote remove github
+          fi
+
           echo "Adding GitHub remote..."
-          git remote remove github || true # Remove existing remote if it exists
           git remote add github "https://$GITHUB_TOKEN@github.com/patil-milind/AzureDevopsRepoPOC.git"
+
+          echo "Verifying GitHub remote..."
+          git remote -v
+
+          echo "Fetching from GitHub to ensure connection..."
           git fetch github
 
-          echo "Pushing all branches and tags to GitHub..."
-          git push github --all --force
+          echo "Pushing branches individually to GitHub..."
+          for branch in $(git for-each-ref --format '%(refname:short)' refs/heads/); do
+            git push github "$branch" --force
+          done
           git push github --tags --force
         displayName: "Sync changes to GitHub"
         env:
-          GITHUB_TOKEN: $(GitPAT) # Use your GitHub PAT from Azure DevOps secrets
+          GITHUB_TOKEN: $(GitPAT)
