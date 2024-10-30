@@ -1,19 +1,33 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+  branches:
+    include:
+      - '*'
+pr:
+  branches:
+    include:
+      - '*'
 
-pool:
-  vmImage: ubuntu-latest
+jobs:
+  - job: SyncToGitHub
+    displayName: "Sync Azure DevOps Repo to GitHub"
+    pool:
+      vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+    steps:
+      - checkout: self
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+      - script: |
+          echo "Setting up Git configuration..."
+          git config --global user.name "Milind Patil"
+          git config --global user.email "milind.patl02@gmail.com"
+
+          echo "Adding GitHub remote..."
+          git remote add github "https://github.com/patil-milind/AzureDevopsRepoPOC.git"
+          git fetch github
+
+          echo "Pushing changes to GitHub..."
+          git push github --all --force
+          git push github --tags --force
+        displayName: "Sync changes to GitHub"
+        env:
+          GITHUB_TOKEN: $(GITDESTINATIONPAT) # Use your GitHub PAT from Azure DevOps secrets
