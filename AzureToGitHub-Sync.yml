@@ -17,6 +17,14 @@ jobs:
       - checkout: self
 
       - script: |
+            echo "Testing commit..."
+            touch testfile.txt
+            git add testfile.txt
+            git commit -m "Testing sync with GitHub"
+            git push github HEAD:main --force
+        displayName: "Test Commit Push to GitHub"
+
+      - script: |
           echo "Setting up Git configuration..."
           git config --global user.name "patil-milind"
           git config --global user.email "milind.patl02@gmail.com"
