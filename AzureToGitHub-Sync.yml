@@ -31,7 +31,7 @@ jobs:
           git remote add github "https://$GITHUB_TOKEN@github.com/patil-milind/AzureDevopsRepoPOC.git"
           echo "https://$GITHUB_TOKEN@github.com/patil-milind/AzureDevopsRepoPOC.git"
           echo "Verifying GitHub remote..."
-          echo $(Check)
+          echo "$GITHUB_TOKEN"
           git remote -v
 
           echo "Fetching from GitHub to ensure connection..."
