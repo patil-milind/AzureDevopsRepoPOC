@@ -21,18 +21,12 @@ jobs:
           git config --global user.name "patil-milind"
           git config --global user.email "milind.patl02@gmail.com"
 
-          echo "Testing commit..."
-            touch testfile.txt
-            git add testfile.txt
-            git commit -m "Testing sync with GitHub"
-            git push github HEAD:main --force
-
           echo "Adding GitHub remote..."
+          git remote remove github || true # Remove existing remote if it exists
           git remote add github "https://$GITHUB_TOKEN@github.com/patil-milind/AzureDevopsRepoPOC.git"
-          git remote -v
           git fetch github
 
-          echo "Pushing changes to GitHub..."
+          echo "Pushing all branches and tags to GitHub..."
           git push github --all --force
           git push github --tags --force
         displayName: "Sync changes to GitHub"
