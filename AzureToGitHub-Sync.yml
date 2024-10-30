@@ -23,6 +23,7 @@ jobs:
 
           echo "Adding GitHub remote..."
           git remote add github "https://$GITHUB_TOKEN@github.com/patil-milind/AzureDevopsRepoPOC.git"
+          git remote -v
           git fetch github
 
           echo "Pushing changes to GitHub..."
