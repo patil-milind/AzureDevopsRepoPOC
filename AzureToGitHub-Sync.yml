@@ -30,4 +30,4 @@ jobs:
           git push github --tags --force
         displayName: "Sync changes to GitHub"
         env:
-          GITHUB_TOKEN: $(GitDestinationPAT) # Use your GitHub PAT from Azure DevOps secrets
+          GITHUB_TOKEN: $(GitPAT) # Use your GitHub PAT from Azure DevOps secrets
