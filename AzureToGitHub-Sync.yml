@@ -17,27 +17,57 @@ jobs:
       - checkout: self
 
       - script: |
-          
-          echo "Setting up Git configuration..."
-          git checkout dev
-          echo "Print directory Azure"
-          ls -al
-          
-          git config --global user.name "patil-milind"
-          git config --global user.email "milind.patl02@gmail.com"
+          echo " - - - - - - - - - - - - - - - - - - - - - - - - -"
+          echo "Reflecting Azure DevOps repo changes to GitHub repo"
+          echo " - - - - - - - - - - - - - - - - - - - - - - - - -"
 
-          echo "Adding GitHub remote..."
-          git remote add github "https://$GITHUB_TOKEN@github.com/patil-milind/AzureDevopsRepoPOC.git"
-         
-          echo "Fetching the latest from GitHub..."
-          git fetch github
-          echo "Checking for differences..."
-          git diff --exit-code github/dev
-          echo "Pushing branches to GitHub...1"
-          git push github dev
- 
-          echo "Pushing tags to GitHub..."
-          git push --tags --force github
+          # Define directories
+          stageDir=$(Build.SourcesDirectory)
+          githubDir="$stageDir/gitHub"
+          destination="$githubDir/AzureDevopsRepoPOC.git"
+
+          # Define URLs and credentials
+          alias="patil-milind:$GITHUB_TOKEN"
+          sourceURL="https://$AZURE_DEVOPS_PAT@milindpatil@dev.azure.com/milindpatil/AzureDevopsRepoPOC/_git/AzureDevopsRepoPOC"
+          destURL="https://$alias@github.com/patil-milind/AzureDevopsRepoPOC.git"
+
+          # Check if parent directory exists and delete it if needed
+          if [ -d "$githubDir" ]; then
+            echo "Removing existing $githubDir directory..."
+            rm -rf "$githubDir"
+          fi
+
+          # Create a new directory and clone the Azure DevOps repo
+          echo "Creating directory $githubDir..."
+          mkdir -p "$githubDir"
+          cd "$githubDir"
+
+          echo "Cloning Azure DevOps repository..."
+          git clone --mirror "$sourceURL" "$destination"
+
+          cd "$destination"
+
+          # Remove existing GitHub remote if exists and add the new GitHub remote
+          echo "Configuring Git remotes..."
+          git remote rm secondary || true
+          git remote add --mirror=fetch secondary "$destURL"
+
+          # Fetch and push changes
+          echo "Fetching from Azure DevOps repo..."
+          git fetch origin
+          echo "Pushing all branches and tags to GitHub..."
+          git push secondary --all
+          git push secondary --tags
+
+          # Clean up the GitHub directory
+          cd "$stageDir"
+          if [ -d "$githubDir" ]; then
+            echo "Cleaning up $githubDir directory..."
+            rm -rf "$githubDir"
+          fi
+
+          echo "Azure DevOps repo synced with GitHub repo successfully."
         displayName: "Sync changes to GitHub"
         env:
           GITHUB_TOKEN: $(GitPAT)
+          AZURE_DEVOPS_PAT: $(AzureDevOpsPAT)
