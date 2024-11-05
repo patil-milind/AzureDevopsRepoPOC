@@ -27,8 +27,8 @@ jobs:
           destination="$githubDir/AzureDevopsRepoPOC"
 
           # Define URLs and credentials
-          sourceURL="https://$(AZURE_DEVOPS_PAT)@dev.azure.com/milindpatil/AzureDevopsRepoPOC/_git/AzureDevopsRepoPOC"
-          destURL="https://patil-milind:$(GITHUB_TOKEN)@github.com/patil-milind/AzureDevopsRepoPOC.git"
+          sourceURL="https://$(AzureDevOpsPAT)@dev.azure.com/milindpatil/AzureDevopsRepoPOC/_git/AzureDevopsRepoPOC"
+          destURL="https://patil-milind:$(GitPAT)@github.com/patil-milind/AzureDevopsRepoPOC.git"
 
           # Check if parent directory exists and delete it if needed
           if [ -d "$githubDir" ]; then
