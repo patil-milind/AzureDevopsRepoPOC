@@ -17,34 +17,25 @@ jobs:
       - checkout: self
 
       - script: |
-          echo "Print directory Azure"
-          ls -al
+          
           echo "Setting up Git configuration..."
           git checkout dev
+          echo "Print directory Azure"
+          ls -al
+          
           git config --global user.name "patil-milind"
           git config --global user.email "milind.patl02@gmail.com"
 
-          echo "Checking for existing GitHub remote..."
-          if git remote | grep -q github; then
-            echo "Removing existing GitHub remote..."
-            git remote remove github
-          fi
-
           echo "Adding GitHub remote..."
           git remote add github "https://$GITHUB_TOKEN@github.com/patil-milind/AzureDevopsRepoPOC.git"
-          echo "Print directory"
-          ls -al
-          echo "Fetching from GitHub to ensure connection..."
+         
+          echo "Fetching the latest from GitHub..."
           git fetch github
-
+          echo "Checking for differences..."
+          git diff --exit-code github/dev
           echo "Pushing branches to GitHub...1"
           git push github dev
  
-          # for branch in $(git for-each-ref --format '%(refname:short)' refs/heads/); do
-          #   echo "Pushing branch $branch..."
-          #   git push --force github "$branch"
-          # done
-
           echo "Pushing tags to GitHub..."
           git push --tags --force github
         displayName: "Sync changes to GitHub"
