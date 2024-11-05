@@ -27,8 +27,8 @@ jobs:
           destination="$githubDir/AzureDevopsRepoPOC.git"
 
           # Define URLs and credentials
-          alias="patil-milind:$GITHUB_TOKEN"
-          sourceURL="https://$AZURE_DEVOPS_PAT@milindpatil@dev.azure.com/milindpatil/AzureDevopsRepoPOC/_git/AzureDevopsRepoPOC"
+          alias="patil-milind:$(GitPAT)"
+          sourceURL="https://$(AzureDevOpsPAT)@milindpatil@dev.azure.com/milindpatil/AzureDevopsRepoPOC/_git/AzureDevopsRepoPOC"
           destURL="https://$alias@github.com/patil-milind/AzureDevopsRepoPOC.git"
 
           # Check if parent directory exists and delete it if needed
@@ -41,8 +41,9 @@ jobs:
           echo "Creating directory $githubDir..."
           mkdir -p "$githubDir"
           cd "$githubDir"
-          echo "print sourceURL-----------"
+          echo "print sourceURL Destination-----------"
           echo $sourceURL
+          echo $destination
           echo "Cloning Azure DevOps repository..."
           git clone --mirror "$sourceURL" "$destination"
 
