@@ -45,7 +45,7 @@ jobs:
           echo $sourceURL
           echo $destURL
           echo "Cloning Azure DevOps repository..."
-          git clone --mirror "$sourceURL" "$destination"
+          git clone --mirror "$sourceURL" "$destURL"
 
           cd "$destination"
 
