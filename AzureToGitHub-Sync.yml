@@ -42,7 +42,7 @@ jobs:
           cd "$githubDir"
           
           echo "Cloning Azure DevOps repository..."
-          git clone "$sourceURL" "$destination"
+          git clone --mirror "$sourceURL" "$destination"
 
           cd "$destination"
 
@@ -53,11 +53,9 @@ jobs:
 
           # Fetch and push all branches and tags
           echo "Fetching from Azure DevOps repo..."
-          git fetch origin
-          echo "Pushing all branches to GitHub..."
-          git push secondary --all
-          echo "Pushing all tags to GitHub..."
-          git push secondary --tags
+          git fetch --all
+          echo "Pushing all branches and tags to GitHub..."
+          git push secondary --mirror
 
           # Clean up the GitHub directory
           cd "$stageDir"
