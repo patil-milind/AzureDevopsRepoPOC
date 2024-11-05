@@ -29,7 +29,7 @@ jobs:
 
           echo "Adding GitHub remote..."
           git remote add github "https://$GITHUB_TOKEN@github.com/patil-milind/AzureDevopsRepoPOC.git"
-          print ls -l
+          print ls -al
           echo "Fetching from GitHub to ensure connection..."
           git fetch github
 
