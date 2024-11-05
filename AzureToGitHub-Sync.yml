@@ -41,7 +41,8 @@ jobs:
           echo "Creating directory $githubDir..."
           mkdir -p "$githubDir"
           cd "$githubDir"
-
+          echo "print sourceURL-----------"
+          echo $sourceURL
           echo "Cloning Azure DevOps repository..."
           git clone --mirror "$sourceURL" "$destination"
 
