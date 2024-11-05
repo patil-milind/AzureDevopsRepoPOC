@@ -20,6 +20,7 @@ jobs:
           echo "Print directory Azure"
           ls -al
           echo "Setting up Git configuration..."
+          git checkout dev
           git config --global user.name "patil-milind"
           git config --global user.email "milind.patl02@gmail.com"
 
